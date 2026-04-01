@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_filters',
     'drf_spectacular',
-    'teams',
-    'drivers',
+    'times',
+    'pilotos',
     'sync',
 ]
 
@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'America/joaopessoa'
+TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
 
