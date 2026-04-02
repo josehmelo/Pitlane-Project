@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Time
 
-# Register your models here.
+class TimeAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'nacionalidade', 'atividade')
+    search_fields = ('nome',)
+
+admin.site.register(Time, TimeAdmin)

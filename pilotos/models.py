@@ -4,8 +4,8 @@ from times.models import Time
 # Create your models here.
 
 class Piloto(models.Model):
-    apelido = models.CharField(max_length=100)
     nome = models.CharField(max_length=100)
+    sobrenome = models.CharField(max_length=100)
     piloto_id = models.CharField(max_length=100, unique=True)
     codigo = models.CharField(max_length=10, null=True, blank=True)
     aniversario = models.DateField(null=True, blank=True)
@@ -19,7 +19,7 @@ class Piloto(models.Model):
         ordering = ['nome']
         
     def __str__(self):
-        return f"{self.nome} ({self.apelido})"
+        return f"{self.nome} {self.sobrenome}"
     
 class Piloto_Status(models.Model):
     piloto = models.ForeignKey(Piloto, on_delete=models.CASCADE, related_name='status')
