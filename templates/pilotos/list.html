@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-end mb-5 border-bottom border-secondary pb-3">
+        <div>
+            <h1 class="display-5 fw-bold text-uppercase">Grid de <span class="text-danger">Pilotos</span></h1>
+            <p class="text-f1-silver mb-0">Atletas e competidores da temporada atual</p>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for piloto in pilotos %}
+        <div class="col">
+            <div class="card card-f1 h-100 shadow">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="text-danger fw-bold">#{{ piloto.numero|default:forloop.counter }}</span>
+                        <span class="badge {% if piloto.atividade %}border-success text-success{% else %}border-secondary text-secondary{% endif %} border px-2 py-1" style="font-size: 0.6rem;">
+                            {% if piloto.atividade %}ATIVO{% else %}INATIVO{% endif %}
+                        </span>
+                    </div>
+                    
+                    <h4 class="card-title mb-1 fw-bold">{{ piloto.nome }} {{ piloto.sobrenome|upper }}</h4>
+                    <p class="text-f1-silver small mb-3">{{ piloto.nacionalidade }}</p>
+                    
+                    <div class="mt-auto">
+                        <hr>
+                        <p class="mb-3 small">
+                            <strong class="text-f1-silver">EQUIPE:</strong> 
+                            <span class="text-white">{% if piloto.equipe %}{{ piloto.equipe.nome }}{% else %}N/A{% endif %}</span>
+                        </p>
+                        <a href="{% url 'piloto-detalhe' piloto.id %}" class="btn btn-f1 w-100">Ver Perfil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-f1-silver">Nenhum piloto encontrado.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

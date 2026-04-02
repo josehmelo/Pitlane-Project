@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-5">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'times-lista' %}" class="text-danger text-decoration-none">Equipes</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">{{ equipe.nome }}</li>
+                </ol>
+            </nav>
+            <div class="d-flex align-items-center border-bottom border-secondary pb-4">
+                <h1 class="display-3 fw-bold text-uppercase mb-0">{{ equipe.nome }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card card-f1 shadow h-100">
+                <div class="card-header bg-danger text-white fw-bold text-uppercase">
+                    Ficha Técnica
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3">
+                            <small class="text-f1-silver d-block text-uppercase">Nacionalidade</small>
+                            <span class="fs-5">{{ equipe.nacionalidade }}</span>
+                        </li>
+                        <li class="mb-3">
+                            <small class="text-f1-silver d-block text-uppercase">Sede Principal</small>
+                            <span class="fs-5">{{ equipe.sede|default:"Não informada" }}</span>
+                        </li>
+                        <li class="mb-0">
+                            <small class="text-f1-silver d-block text-uppercase">Status no Sistema</small>
+                            <span class="badge bg-success">DATABASE SYNCED</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 mb-4">
+            <h3 class="text-uppercase fw-bold mb-4"><span class="text-danger border-bottom border-danger border-3">Line-up</span> Atual</h3>
+            
+            <div class="row row-cols-1 row-cols-sm-2 g-4">
+                {% for p in pilotos %}
+                <div class="col">
+                    <div class="card card-f1 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0 fw-bold">{{ p.nome }} {{ p.sobrenome|upper }}</h5>
+                                    <small class="text-f1-silver">{{ p.nacionalidade }}</small>
+                                </div>
+                                <a href="{% url 'piloto-detalhe' p.id %}" class="btn btn-outline-danger btn-sm">
+                                    Perfil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-dark border-secondary text-f1-silver">
+                        Nenhum piloto vinculado a esta equipe no momento.
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

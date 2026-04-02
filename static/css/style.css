@@ -1,0 +1,89 @@
+/* Paleta de Cores F1 */
+:root {
+    --f1-red: #e10600;
+    --f1-dark: #15151e;
+    --f1-carbon: #1f1f27;
+    --f1-silver: #949498;
+    --f1-white: #ffffff;
+}
+
+/* Reset Global */
+body {
+    background-color: var(--f1-dark) !important;
+    color: var(--f1-white) !important;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Estilizada */
+.navbar-f1 {
+    background-color: var(--f1-red) !important;
+    border-bottom: 4px solid #b70500;
+}
+
+.navbar-brand {
+    font-weight: 900 !important;
+    letter-spacing: -1px;
+}
+
+/* Cards Estilo Carbono */
+.card-f1 {
+    background-color: var(--f1-carbon) !important;
+    border: none !important;
+    border-left: 5px solid var(--f1-red) !important;
+    color: var(--f1-white) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-f1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    background-color: #25252e !important;
+}
+
+/* Botões F1 */
+.btn-f1 {
+    background-color: var(--f1-red) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px;
+}
+
+.btn-f1:hover {
+    background-color: white !important;
+    color: var(--f1-red) !important;
+}
+
+/* Texto Secundário */
+.text-f1-silver {
+    color: var(--f1-silver) !important;
+}
+
+hr {
+    border-top: 1px solid rgba(255,255,255,0.1) !important;
+    opacity: 1 !important;
+}
+
+/* Correção para garantir que os links da Navbar apareçam */
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: var(--f1-red) !important;
+}
+
+/* Forçar fundo em todos os containers */
+.container, .container-fluid {
+    background-color: transparent !important;
+}
+
+/* Garantir que cards de listagem e detalhes sejam idênticos */
+.card {
+    background-color: var(--f1-carbon) !important;
+    color: white !important;
+}
