@@ -1,34 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
     <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-body">
-                <h3 class="text-center mb-4">Acesso Pitlane</h3>
-                <form id="loginForm">
+        <div class="card card-f1 shadow-lg border-top border-danger border-5">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-uppercase">Acesso <span class="text-danger">Pitlane</span></h2>
+                    <p class="text-f1-silver small">Identifique-se para gerenciar a telemetria</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
                     <div class="mb-3">
-                        <label class="form-label">Usuário</label>
-                        <input type="text" id="username" class="form-control" required>
+                        <label class="form-label text-f1-silver small text-uppercase">Usuário</label>
+                        <input type="text" name="username" class="form-control bg-dark text-white border-secondary" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Senha</label>
-                        <input type="password" id="password" class="form-control" required>
+                    <div class="mb-4">
+                        <label class="form-label text-f1-silver small text-uppercase">Senha</label>
+                        <input type="password" name="password" class="form-control bg-dark text-white border-secondary" required>
                     </div>
-                    <button type="submit" class="btn btn-danger w-100">Entrar</button>
+                    
+                    <button type="submit" class="btn btn-f1 w-100 py-2">Entrar no Grid</button>
+                    <div class="text-center mt-4 border-top pt-3 border-secondary">
+    <p class="text-f1-silver small">Ainda não tem acesso? <a href="{% url 'cadastro' %}" class="text-danger text-decoration-none fw-bold">Cadastre-se aqui</a></p>
+</div>
                 </form>
+
+                {% if form.errors %}
+                <div class="alert alert-danger mt-3 small bg-dark border-danger text-danger">
+                    Usuário ou senha incorretos.
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
-
-<script src="{% static 'js/auth.js' %}"></script>
-<script>
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const u = document.getElementById('username').value;
-        const p = document.getElementById('password').value;
-        auth.login(u, p);
-    });
-</script>
 {% endblock %}

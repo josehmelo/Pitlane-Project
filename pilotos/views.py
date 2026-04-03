@@ -4,6 +4,29 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Piloto, Piloto_Status
 from .serializers import PilotoSerializer, PilotoStatusSerializer
 
+# Autenticação e Redirecionamento
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
+from django.contrib import messages
+
+def cadastro_web(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Conta criada para {username}! Faça login agora.')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'cadastro.html', {'form': form})
+
+# --- API VIEWSETS (Para o JSON/Mobile) ---
+
 class PilotoViewSet(viewsets.ModelViewSet):
     queryset = Piloto.objects.select_related('equipe').all()
     serializer_class = PilotoSerializer
@@ -18,18 +41,31 @@ class PilotoStatusViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['piloto', 'temporada']
     ordering_fields = ['temporada', 'pontos', 'vitorias', 'posicao']
+
+# --- VIEWS PARA LOGIN/LOGOUT ---
+
+class PitlaneLoginView(LoginView):
+    template_name = 'login.html'
+    redirect_authenticated_user = True
     
+    def get_success_url(self):
+        return reverse_lazy('pilotos-lista')
+
+class PitlaneLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
 # --- VIEWS PARA FRONTEND (Templates HTML) ---
 
+@login_required(login_url='/login/')
 def lista_pilotos_web(request):
     """Renderiza a página principal com o grid de pilotos"""
     pilotos = Piloto.objects.all().select_related('equipe')
     return render(request, 'pilotos/list.html', {'pilotos': pilotos})
 
+@login_required(login_url='/login/')
 def detalhe_piloto_web(request, pk):
     """Renderiza os detalhes e as estatísticas de um piloto específico"""
     piloto = get_object_or_404(Piloto, pk=pk)
-    # Busca o histórico de temporadas desse piloto
     stats = Piloto_Status.objects.filter(piloto=piloto).order_by('-temporada')
     
     context = {

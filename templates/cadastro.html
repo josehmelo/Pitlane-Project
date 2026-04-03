@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5">
+        <div class="card card-f1 shadow-lg border-top border-danger border-5">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-uppercase">Novo <span class="text-danger">Piloto</span></h2>
+                    <p class="text-f1-silver small">Crie sua conta para acessar o sistema</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label text-f1-silver small text-uppercase">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text text-muted" style="font-size: 0.7rem;">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    
+                    <button type="submit" class="btn btn-f1 w-100 py-2 mt-3">Registrar no Paddock</button>
+                </form>
+
+                <div class="text-center mt-4 border-top pt-3 border-secondary">
+                    <p class="text-f1-silver small">Já tem conta? <a href="{% url 'login' %}" class="text-danger text-decoration-none fw-bold">Faça Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Pequeno ajuste para os inputs do formulário nativo do Django */
+    input {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: white;
+        background-color: #15151e;
+        border: 1px solid #495057;
+        border-radius: .25rem;
+    }
+</style>
+{% endblock %}

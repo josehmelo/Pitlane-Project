@@ -7,8 +7,13 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from pilotos.views import PitlaneLoginView, PitlaneLogoutView, cadastro_web
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', PitlaneLoginView.as_view(), name='login'),
+    path('logout/', PitlaneLogoutView.as_view(), name='logout'),
+    path('cadastro/', cadastro_web, name='cadastro'),
     
     # JWT - Autenticação (Ajustado para bater com o Import acima)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
