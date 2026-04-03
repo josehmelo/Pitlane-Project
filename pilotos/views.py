@@ -58,9 +58,20 @@ class PitlaneLogoutView(LogoutView):
 
 @login_required(login_url='/login/')
 def lista_pilotos_web(request):
-    """Renderiza a página principal com o grid de pilotos"""
-    pilotos = Piloto.objects.all().select_related('equipe')
-    return render(request, 'pilotos/list.html', {'pilotos': pilotos})
+    ano_selecionado = request.GET.get('ano', '2024')
+    
+    stats_ano = Piloto_Status.objects.filter(
+        temporada=ano_selecionado
+    ).select_related('piloto', 'piloto__equipe').order_by('-pontos')
+
+    temporadas_disponiveis = ['2024', '2023', '2022', '2021']
+
+    context = {
+        'stats': stats_ano,
+        'ano_atual': ano_selecionado,
+        'temporadas': temporadas_disponiveis,
+    }
+    return render(request, 'pilotos/list.html', context)
 
 @login_required(login_url='/login/')
 def detalhe_piloto_web(request, pk):
