@@ -179,21 +179,11 @@ Verifique o `docker-compose.yml`.
 
 ---
 
-### ❌ Bandeiras não aparecem
-
-As bandeiras foram removidas propositalmente para:
-
-* reduzir dependência externa
-* manter design limpo
-
----
-
 ## 📝 Autor
 
 **José Melo**
 🎓 Computer Science Student
 
-Experiência em **Marketing & Produção de Vídeo**, aplicada ao desenvolvimento de software.
 
 ---
 
