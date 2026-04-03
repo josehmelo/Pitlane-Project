@@ -1,35 +1,200 @@
-# Pitlane-Projec
+# 🏎 Pitlane Project | F1 Stats Manager
 
-Pitlane Project | F1 Stats ManagerSistema de gerenciamento e telemetria de Fórmula 1 com Django, MySQL e DockerUm projeto robusto que permite gerenciar pilotos, equipes e estatísticas históricas da F1. O sistema consome dados reais de APIs de automobilismo, permite a filtragem dinâmica por temporadas (2020-2024) e possui uma interface administrativa e pública personalizada com o tema Carbon & Red.📋 ÍndiceTecnologiasFuncionalidadesEstrutura do ProjetoComeçandoSincronização de DadosInterface VisualEntidadesTroubleshooting🛠 TecnologiasPython 3.13Django 5.1MySQL 8.0 (Porta customizada 3307)Docker & Docker ComposeDjango REST Framework (API REST)Bootstrap 5 (Interface Web)Ergast API / OpenF1 (Fontes de dados)✨ Funcionalidades✅ Dashboard de Temporadas: Filtro dinâmico para visualizar o grid de diferentes anos.✅ Gestão de Equipes: Detalhamento de escuderias com vinculação automática de pilotos.✅ Perfil de Piloto: Telemetria individual e histórico de performance.✅ Autenticação Paddock: Sistema de login e cadastro para acesso à área restrita.✅ Sincronizador Customizado: Comando CLI para importar dados de temporadas específicas.✅ Interface Carbon & Red: UI customizada inspirada na identidade visual da F1.✅ API REST: Endpoints documentados para integração mobile.📁 Estrutura do Projetopitlane-project/
-├── config/                 # Configurações centrais do Django
-│   ├── settings.py         # Configurações de DB e Apps
-│   └── urls.py             # Rotas globais (Admin, API, Web)
-├── pilotos/                # App de Atletas e Performance
-│   ├── models.py           # Modelos Piloto e Piloto_Status
-│   ├── views.py            # Lógica de ranking e temporadas
-│   ├── management/         # Comandos customizados (sync_season)
-│   └── serializers.py      # Transformação de dados para API
-├── times/                  # App de Construtores
-│   ├── models.py           # Modelo de Equipes (Escuderias)
-│   ├── views.py            # Lógica de line-up por equipe
-│   └── serializers.py      # Serializers de times
-├── templates/              # Interface Web (HTML/Django)
-│   ├── base.html           # Layout principal com Navbar F1
-│   ├── login.html          # Tela de acesso ao Paddock
-│   ├── cadastro.html       # Registro de novos usuários
-│   ├── pilotos/            # Listagem e Detalhes de Pilotos
-│   └── times/              # Grid e Detalhes de Equipes
-├── static/                 # Arquivos Estáticos
-│   └── css/style.css       # Tema Custom Carbon & Red
-├── docker-compose.yml      # Orquestração (Web + MySQL 3307)
-├── Dockerfile              # Definição da imagem Python
+Sistema de gerenciamento e telemetria de Fórmula 1 desenvolvido com **Django, MySQL e Docker**.
+
+Projeto completo que permite gerenciar pilotos, equipes e estatísticas históricas da F1, consumindo dados reais de APIs de automobilismo. Possui interface administrativa e pública personalizada com o tema **Carbon & Red**.
+
+---
+
+## 📋 Índice
+
+* [🛠 Tecnologias](#-tecnologias)
+* [✨ Funcionalidades](#-funcionalidades)
+* [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+* [🚀 Começando](#-começando-docker)
+* [🏎 Sincronização de Dados](#-sincronização-de-dados)
+* [📊 Entidades](#-entidades)
+* [🎨 Interface Visual](#-interface-visual)
+* [🔧 Troubleshooting](#-troubleshooting)
+* [📝 Autor](#-autor)
+
+---
+
+## 🛠 Tecnologias
+
+* Python 3.13
+* Django 5.1
+* MySQL 8.0 (porta 3307)
+* Docker & Docker Compose
+* Django REST Framework
+* Bootstrap 5
+* Ergast API / OpenF1
+
+---
+
+## ✨ Funcionalidades
+
+* ✅ **Dashboard de Temporadas**: filtro dinâmico (2020–2024)
+* ✅ **Gestão de Equipes**: vínculo automático de pilotos
+* ✅ **Perfil de Piloto**: telemetria e histórico de performance
+* ✅ **Autenticação Paddock**: login e cadastro de usuários
+* ✅ **Sincronizador Customizado**: importação via CLI
+* ✅ **Interface Carbon & Red**: UI inspirada na F1
+* ✅ **API REST**: endpoints para integração externa
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+pitlane-project/
+├── config/
+│   ├── settings.py
+│   └── urls.py
+├── pilotos/
+│   ├── models.py
+│   ├── views.py
+│   ├── management/
+│   └── serializers.py
+├── times/
+│   ├── models.py
+│   ├── views.py
+│   └── serializers.py
+├── templates/
+│   ├── base.html
+│   ├── login.html
+│   ├── cadastro.html
+│   ├── pilotos/
+│   └── times/
+├── static/
+│   └── css/style.css
+├── docker-compose.yml
+├── Dockerfile
 └── manage.py
-🚀 Começando (Docker)Pré-requisitosDocker Desktop instaladoPassos:Clone e entre na pastaBashgit clone https://github.com/josehmelo/pitlane-f1.git
+```
+
+---
+
+## 🚀 Começando (Docker)
+
+### Pré-requisitos
+
+* Docker Desktop instalado
+
+### Passos
+
+#### 1. Clone o repositório
+
+```bash
+git clone https://github.com/josehmelo/pitlane-f1.git
 cd pitlane-f1
-Suba os containersBashdocker-compose up --build -d
-Prepare o ambienteBashdocker-compose exec web python manage.py migrate
+```
+
+#### 2. Suba os containers
+
+```bash
+docker-compose up --build -d
+```
+
+#### 3. Prepare o ambiente
+
+```bash
+docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py createsuperuser
-Acessehttp://localhost:8000/login/
-🏎 Sincronização de DadosO projeto possui um comando exclusivo para alimentar o banco de dados MySQL com dados reais da F1.Para importar a temporada atual:Bashdocker-compose exec web python manage.py sync_season 2024
-Para importar dados históricos:Bashdocker-compose exec web python manage.py sync_season 2023
-📊 EntidadesModelo: PilotoCampoTipoDescriçãonomeCharFieldPrimeiro nome do pilotosobrenomeCharFieldSobrenome oficialnumeroIntegerNúmero permanente no gridequipeForeignKeyVínculo com o modelo TimeModelo: Piloto_Status (Estatísticas)CampoTipoDescriçãotemporadaCharFieldAno da competição (ex: 2024)pontosDecimalTotal de pontos acumuladosposicaoIntegerPosição final/atual no rankingvitoriasIntegerQuantidade de GPs vencidos🎨 Interface VisualO projeto utiliza uma folha de estilo customizada (style.css) que sobrescreve o Bootstrap para criar a estética Carbon Dark:Background: #15151e (Dark Mode F1)Primary: #e10600 (F1 Racing Red)Cards: #1f1f27 (Carbon Fiber Texture)🔧 TroubleshootingErro: Porta 3306 ocupadaO projeto está configurado para usar a porta 3307 no host para evitar conflitos com MySQLs locais. Verifique o docker-compose.yml.CSS não carrega as cores novasDevido ao cache agressivo do navegador, use Ctrl + F5 ou limpe o cache do navegador após alterar o style.css.Bandeiras não aparecem ou estão erradasAs bandeiras foram removidas para garantir um design mais limpo e independente de APIs externas. O foco atual é na tipografia e dados técnicos.📝 AutorJose Melo - Computer Science StudentMarketing & Video Production Background aplicado ao desenvolvimento de software.Última atualização: Abril 2026
+```
+
+#### 4. Acesse o sistema
+
+```
+http://localhost:8000/login/
+```
+
+---
+
+## 🏎 Sincronização de Dados
+
+Importe dados reais da F1 diretamente para o banco:
+
+### Temporada atual
+
+```bash
+docker-compose exec web python manage.py sync_season 2024
+```
+
+### Temporadas anteriores
+
+```bash
+docker-compose exec web python manage.py sync_season 2023
+```
+
+---
+
+## 📊 Entidades
+
+### 🧑‍✈️ Modelo: Piloto
+
+| Campo     | Tipo       | Descrição               |
+| --------- | ---------- | ----------------------- |
+| nome      | CharField  | Primeiro nome do piloto |
+| sobrenome | CharField  | Sobrenome oficial       |
+| numero    | Integer    | Número no grid          |
+| equipe    | ForeignKey | Relação com Time        |
+
+---
+
+### 📈 Modelo: Piloto_Status
+
+| Campo     | Tipo      | Descrição                    |
+| --------- | --------- | ---------------------------- |
+| temporada | CharField | Ano da competição (ex: 2024) |
+| pontos    | Decimal   | Total de pontos              |
+| posicao   | Integer   | Ranking atual/final          |
+| vitorias  | Integer   | Número de vitórias           |
+
+---
+
+## 🎨 Interface Visual
+
+Tema customizado inspirado na identidade da Fórmula 1:
+
+* **Background:** `#15151e` (Dark Mode)
+* **Primary:** `#e10600` (F1 Racing Red)
+* **Cards:** `#1f1f27` (Carbon Style)
+
+---
+
+## 🔧 Troubleshooting
+
+### ❌ Porta 3306 ocupada
+
+O projeto usa a porta **3307** para evitar conflitos.
+Verifique o `docker-compose.yml`.
+
+---
+
+### ❌ CSS não atualiza
+
+* Use `Ctrl + F5`
+* Limpe o cache do navegador
+
+---
+
+### ❌ Bandeiras não aparecem
+
+As bandeiras foram removidas propositalmente para:
+
+* reduzir dependência externa
+* manter design limpo
+
+---
+
+## 📝 Autor
+
+**José Melo**
+🎓 Computer Science Student
+
+Experiência em **Marketing & Produção de Vídeo**, aplicada ao desenvolvimento de software.
+
+---
+
+📅 Última atualização: Abril 2026
